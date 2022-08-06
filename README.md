@@ -10,6 +10,10 @@ The Pet Shop API offers the required HTTP request methods and endpoints to meet 
 2. User endpoint (CRUD).
 3. Forgot/reset password.
 4. Main page endpoint.
+5. Main page endpoint.
+6. Categories endpoint (CRUD).
+7. Brands endpoint (CRUD).
+8. Products endpoint (CRUD).
 
 ## Pet Shop API Development Procedures
 
@@ -30,9 +34,11 @@ The Pet Shop API offers the required HTTP request methods and endpoints to meet 
 ## Login credentials
 
 Administrator Account
-Email: `admin@buckhill.co.uk`
-Password: `admin`
+
+-   Email: `admin@buckhill.co.uk`
+-   Password: `admin`
 
 User Account
 You can get a new or existing user email from the `admin/user-listing` endpoint.
-Password: `userpassword`
+
+-   Password: `userpassword`
