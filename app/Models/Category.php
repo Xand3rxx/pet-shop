@@ -18,6 +18,19 @@ class Category extends Model
     protected $guarded = [];
 
     /**
+     * The "booted" method of the model.
+     * Set default parameters when a new category is to be created.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($category) {
+            $category->slug  = (string) \Illuminate\Support\Str::slug($category['title']);
+        });
+    }
+
+    /**
      * Retrieve the model for a bound value.
      *
      * @param  mixed  $value

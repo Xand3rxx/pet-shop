@@ -18,6 +18,19 @@ class Brand extends Model
     protected $guarded = [];
 
     /**
+     * The "booted" method of the model.
+     * Set default parameters when a new brand is to be created.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($brand) {
+            $brand->slug  = (string) \Illuminate\Support\Str::slug($brand['title']);
+        });
+    }
+
+    /**
      * Retrieve the model for a bound value.
      *
      * @param  mixed  $value

@@ -30,7 +30,7 @@ return new class extends Migration
             $table->boolean('is_marketing', User::MARKETER_ROLE)->default(User::MARKETER_ROLE['User']);
             $table->rememberToken();
             $table->timestamps();
-            $table->timestamp('last_login_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('last_login_at')->nullable();
         });
     }
 
