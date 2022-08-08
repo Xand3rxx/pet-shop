@@ -6,8 +6,8 @@ This project was created based on Buckhill's Pet Shop API requirements.
 
 The Pet Shop API offers the required HTTP request methods and endpoints to meet the demands of a FE team creating a suitable UI. This web application features the following features based on the User Story:
 
-1. Admin endpoint.
-2. Products endpoint (CRUD).
+1. Admin endpoint(CRUD).
+2. Products endpoint(CRUD).
 
 ## Pet Shop API Development Procedures
 
