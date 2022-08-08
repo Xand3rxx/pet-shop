@@ -3,33 +3,31 @@
 namespace App\Actions;
 
 use App\Actions\File;
-use App\Models\Product as ProductModel;
 
-class Product
+class UpdateProduct
 {
     use File;
 
     /**
      * Create or update product record in storage.
      *
+     * @param object  $product
      * @param array  $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function handle(array $request)
+    public function handle(object $product, array $request)
     {
         // Set `hasBeenCreated` to false before DB transaction
         (bool) $hasBeenCreated = false;
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($request, &$hasBeenCreated) {
-            $product = ProductModel::updateOrCreate([
-                'uuid'    => request()->uuid,
-            ], [
+        \Illuminate\Support\Facades\DB::transaction(function () use ($product, $request, &$hasBeenCreated) {
+            $product = $product->update([
                 'category_uuid' => $request['category_uuid'],
                 'title'         => $request['title'],
-                'price'         => ProductModel::removeComma($request['price']),
+                'price'         => \App\Models\Product::removeComma($request['price']),
                 'description'   => $request['description'],
-                'metadata'      => request()->except('image'),
+                'metadata'      => $request,
             ]);
 
             if (request()->file('image')) {

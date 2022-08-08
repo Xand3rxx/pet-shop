@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Actions\CreateProduct;
+use App\Actions\UpdateProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
-use App\Actions\Product as ProductAction;
 
 class ProductController extends Controller
 {
@@ -40,12 +41,12 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\ProductRequest  $request
-     * @param  \App\Actions\Product  $productAction
+     * @param  \App\Actions\CreateProduct  $productAction
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request, ProductAction $productAction)
+    public function store(ProductRequest $request, CreateProduct $createProduct)
     {
-        return ($productAction->handle($request->validated()))
+        return ($createProduct->handle($request->validated()))
             ? response()->json(
                 [
                     'data' =>    [
@@ -92,13 +93,24 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\ProductRequest  $request
-     * @param  \App\Actions\Product  $productAction
+     * @param  \App\Actions\UpdateProduct  $updateProduct
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, ProductAction $productAction, Product $product)
+    public function update(ProductRequest $request, UpdateProduct $updateProduct, Product $product)
     {
-        return ($productAction->handle($request->validated()))
+        // Merge existing metadata volatile records with sanitized product update request
+        $validated = [];
+
+        if(!empty($product['metadata']['image']) && empty($request['image'])){
+            $validated['image'] = $product['metadata']['image'];
+        }
+
+        if(!empty($product['metadata']['brand']) && empty($request['brand'])){
+            $validated['brand'] = $product['metadata']['brand'];
+        }
+
+        return ($updateProduct->handle($product, array_merge($validated, $request->validated())))
             ? response()->json(
                 [
                     'data' =>    [
