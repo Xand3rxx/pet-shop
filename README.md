@@ -23,7 +23,9 @@ The Pet Shop API offers the required HTTP request methods and endpoints to meet 
 
 6. Run `php artisan migrate:fresh --seed` command.
 
-7. Run `php artisan serve` command.
+7. Run `php artisan jwt:secret` to generate a secret key to handle the token encryption.
+
+8. Run `php artisan serve` command.
 
 ## Login credentials
 

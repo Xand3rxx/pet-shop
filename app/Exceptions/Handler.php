@@ -74,10 +74,9 @@ class Handler extends ExceptionHandler
                 return response()->json(['message' => $exception->getMessage()], 404);
             } else if ($exception instanceof MethodNotAllowedHttpException) {
                 return response()->json(['message' => $exception->getMessage()], 405);
+            } else {
+                return response()->json(['message' => 'Token is either invalid or expired.'], 401);
             }
-            // else {
-            //     return response()->json(['message' => 'Sorry! Token is either invalid or expired.'], 401);
-            // }
         } else {
             return abort(404);
         }

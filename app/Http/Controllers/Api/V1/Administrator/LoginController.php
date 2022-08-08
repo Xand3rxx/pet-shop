@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1\Administrator;
 
-use App\Traits\JWTTokenGenerator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Users\Administrator\LoginRequest;
-
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    use JWTTokenGenerator;
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
 
     /**
      * Authenticate adminstrator login credentials.
@@ -20,34 +22,32 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        // Verify if user exists
-        $user = \App\Models\User::where('email', $request['email'])->first();
+        // Validated login request
+        $credentials = $request->only('email', 'password');
 
         // Create auth token if user exists and password is valid
-        if ($user) {
-            if (Hash::check($request['password'], $user['password'])) {
-                $data = $this->generateToken($user);
-                $response = [
-                    'data' => [
-                        'message'   => "Login was successful.",
-                        'token'     => $data['token'],
-                        'expires'   => $data['expires'],
-                        'firstName' => $user['first_name'],
-                        'lastName'  => $user['last_name'],
-                        'email'     => $user['email'],
-                    ]
-                ];
-                return response($response, 200);
-            } else {
-                return response(
-                    ["error" => "These credentials do not match our records."],
-                    401
-                );
-            }
+        $token = Auth::attempt($credentials);
+
+        if ($token) {
+            $user = auth()->user();
+            $response = [
+                'data' => [
+                    'message'   => "Login was successful.",
+                    'token'     => $token,
+                    'type'      => 'bearer',
+                    'firstName' => $user['first_name'],
+                    'lastName'  => $user['last_name'],
+                    'email'     => $user['email'],
+                ]
+            ];
+            return response($response, 200);
         } else {
             return response(
-                ["error" => 'User does not exist.'],
-                404
+                [
+                    "message" => 'Token generation failed.',
+                    "error" => 'Unauthorized'
+                ],
+                401
             );
         }
     }

@@ -17,10 +17,6 @@ use App\Http\Controllers\Api\V1\Administrator\LoginController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // Routes for authenticatication and authorization.
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(LoginController::class)->group(function () {
@@ -30,8 +26,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // Routes for Admin features.
-Route::prefix('admin')->name('admin.')->middleware('permitted')->group(function () {
-// Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth:api')->group(function () {
     Route::controller(UserController::class)->name('users.')->group(function () {
         Route::get('user-listing', 'index')->name('index');
         Route::post('create', 'store')->name('store');
@@ -40,5 +35,5 @@ Route::prefix('admin')->name('admin.')->middleware('permitted')->group(function 
     });
 });
 
-// Routes for products feature
-Route::apiResource('products', ProductController::class);
+// Routes for products feature.
+Route::apiResource('products', ProductController::class)->middleware('auth:api');
