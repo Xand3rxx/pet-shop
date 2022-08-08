@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+     /**
+     * Allow access to login route.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -51,6 +56,7 @@ class LoginController extends Controller
             );
         }
     }
+
     /**
      * Logout currently authenticated user.
      *
@@ -58,10 +64,31 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        // auth()->user()->token()->revoke();
-
+        Auth::logout();
         return response()->json([
             'message' => 'Successfully logged out'
         ], 200);
+    }
+
+    /**
+     * Refresh token for the current authenticated user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function refresh()
+    {
+        $user =  Auth::user();
+
+        $response = [
+            'data' => [
+                'message'   => "Token was successfully refreshed.",
+                'token'     => Auth::refresh(),
+                'type'      => 'bearer',
+                'firstName' => $user['first_name'],
+                'lastName'  => $user['last_name'],
+                'email'     => $user['email'],
+            ]
+        ];
+        return response($response, 200);
     }
 }

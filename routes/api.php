@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\V1\Administrator\LoginController;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(LoginController::class)->group(function () {
         Route::post('login', 'login')->name('login');
-        Route::get('logout', 'logout')->name('logout');
+        Route::post('logout', 'logout')->name('logout');
     });
 });
 
