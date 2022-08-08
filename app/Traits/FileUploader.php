@@ -24,7 +24,7 @@ trait FileUploader
 
             return $file = [
                 'name' => $file->getClientOriginalName(),
-                'path' => 'storage/' . $path . $fileName,
+                'path' => '/storage/' . $path . $fileName,
                 'size' => $this->getFileSize($file),
                 'type' => $file->getClientOriginalExtension()
             ];

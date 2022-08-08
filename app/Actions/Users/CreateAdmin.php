@@ -37,7 +37,7 @@ class CreateAdmin
 
             if (request()->file('avatar')) {
                 $user->update([
-                    'avatar'    => $this->createFileRecord(request())['uuid']
+                    'avatar'    => $this->createFileRecord(request(), 'avatar')['uuid']
                 ]);
             }
 

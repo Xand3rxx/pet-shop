@@ -55,6 +55,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['file'];
+
+
     /**
      * Retrieve the model for a bound value.
      *
@@ -65,6 +73,14 @@ class User extends Authenticatable
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->where('uuid', $value)->firstOrFail();
+    }
+
+    /**
+     * Get the file associated with the user.
+     */
+    public function file()
+    {
+        return $this->hasOne(File::class, 'uuid', 'avatar');
     }
 
     /**

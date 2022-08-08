@@ -12,11 +12,12 @@ trait File
      * Create a new file record in storage.
      *
      * @param object  $request
+     * @param string  $columnName
      * @return \Illuminate\Http\Response
      */
-    public function createFileRecord(object $request)
+    public function createFileRecord(object $request, $columnName)
     {
-        if ($file = $request->file('avatar')) {
+        if ($file = $request->file($columnName)) {
             $data = $this->fileMetadata($file, 'pet-shop/');
             return \App\Models\File::create([
                 'name'  => $data['name'],

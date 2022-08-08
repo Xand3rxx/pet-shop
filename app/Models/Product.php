@@ -17,6 +17,22 @@ class Product extends Model
      */
     protected $guarded = [];
 
+     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    // protected $with = ['file'];
+
+     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'metadata' => 'array',
+    ];
+
     /**
      * Retrieve the model for a bound value.
      *
@@ -30,19 +46,18 @@ class Product extends Model
     }
 
     /**
+     * Get the file associated with the product.
+     */
+    public function file()
+    {
+        return $this->hasOne(File::class, 'uuid', 'metadata');
+    }
+
+    /**
      * Remove comma from number format without removing decimal point.
      */
     public static function removeComma($value)
     {
         return floatval(preg_replace('/[^\d.]/', '', $value));
     }
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'metadata' => 'array',
-    ];
 }

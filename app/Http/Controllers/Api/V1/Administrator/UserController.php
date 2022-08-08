@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::basicUsers()->limit(100)->paginate(20);
+        $users = User::basicUsers()->latest()->limit(100)->paginate(20);
         return (count($users))
             ? response()->json(
                 [
@@ -134,7 +134,6 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $uuid
      * @param  \App\Models\User  $user
      *
      * @return \Illuminate\Http\Response

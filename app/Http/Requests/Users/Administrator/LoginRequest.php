@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Users\Administrator;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
@@ -36,27 +36,16 @@ class LoginRequest extends FormRequest
      * Handle a failed validation attempt.
      *
      * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @return void
-     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return void
      */
-    protected function failedValidation(Validator $validator)
+    public function failedValidation(Validator $validator)
     {
-        if ($this->wantsJson()) {
-            $response = response()->json([
-                'success' => false,
-                'message' => 'Ops! Some errors occurred',
-                'errors' => $validator->errors()
-            ]);
-        } else {
-            $response = redirect()
-                ->route('login')
-                ->with('message', 'Ops! Some errors occurred')
-                ->withErrors($validator);
-        }
-
-        throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ], 422));
     }
 }
