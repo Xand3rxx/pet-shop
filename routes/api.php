@@ -24,14 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Routes for authenticatication and authorization.
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(LoginController::class)->group(function () {
-        Route::post('/admin/login', 'login')->name('login');
-        Route::get('/admin/logout', 'logout')->name('logout');
+        Route::post('login', 'login')->name('login');
+        Route::get('logout', 'logout')->name('logout');
     });
 });
 
 // Routes for Admin features.
-// Route::prefix('admin')->name('admin.')->middleware('auth:api', 'verified')->group(function () {
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('permitted')->group(function () {
+// Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(UserController::class)->name('users.')->group(function () {
         Route::get('user-listing', 'index')->name('index');
         Route::post('create', 'store')->name('store');
