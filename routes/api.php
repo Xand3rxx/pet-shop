@@ -22,6 +22,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(LoginController::class)->group(function () {
         Route::post('login', 'login')->name('login');
         Route::post('logout', 'logout')->name('logout');
+        Route::get('refresh', 'refresh')->name('refresh');
     });
 });
 

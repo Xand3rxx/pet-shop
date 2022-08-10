@@ -34,5 +34,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };

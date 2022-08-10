@@ -19,6 +19,813 @@
         }
     ],
     "paths": {
+        "/api/v1/admin/login": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Authenticate administrative user",
+                "description": "Returns the authorization information for an authenticated administrative user.",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "required": [
+                                            "email",
+                                            "password"
+                                        ],
+                                        "properties": {
+                                            "email": {
+                                                "description": "Administrator E-mail",
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "description": "Administrator Password",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "admin@buckhill.co.uk",
+                                    "password": "********"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login was successful."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0Ojk3MDAvYXBpL3YxL2FkbWluL2xvZ2luIiwiaWF0IjoxNjYwMDkxNTk0LCJleHAiOjE2NjAwOTUxOTQsIm5iZiI6MTY2MDA5MTU5NCwianRpIjoiR3hHOVJWWjExV0syaGtJUCIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlcl91dWlkIjoiZGU4MWZmOWItNTQ4MC00OGEyLTlmNTQtZGE3OTU3ZTQwMTFmIn0.i5ilpi9xXkOi9TdnfcYNRUkxqbpagtqCKbmFVj1Xyg0c"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "firstName": {
+                                            "type": "string",
+                                            "example": "Chris"
+                                        },
+                                        "lastName": {
+                                            "type": "string",
+                                            "example": "Pine"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "admin@buckhill.co.uk"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token generation failed."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Route Not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/logout": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Logout administrator",
+                "description": "Logs out the current authenticated administrative user.",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Route Not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/refresh": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Refresh token",
+                "description": "Returns new token information.",
+                "operationId": "refresh",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login was successful."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0Ojk3MDAvYXBpL3YxL2FkbWluL2xvZ2luIiwiaWF0IjoxNjYwMDkxNTk0LCJleHAiOjE2NjAwOTUxOTQsIm5iZiI6MTY2MDA5MTU5NCwianRpIjoiR3hHOVJWWjExV0syaGtJUCIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlcl91dWlkIjoiZGU4MWZmOWItNTQ4MC00OGEyLTlmNTQtZGE3OTU3ZTQwMTFmIn0.i5ilpi9xXkOi9TdnfcYNRUkxqbpagtqCKbmFVj1Xyg0c"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "firstName": {
+                                            "type": "string",
+                                            "example": "Chris"
+                                        },
+                                        "lastName": {
+                                            "type": "string",
+                                            "example": "Pine"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "admin@buckhill.co.uk"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Route Not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/user-listing": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Display all non-administrative users",
+                "description": "Returns a list of all non-administrative usersinformation.",
+                "operationId": "listUsers",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "1 user record(s) found."
+                                        },
+                                        "users": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": 2
+                                                    },
+                                                    "uuid": {
+                                                        "type": "string",
+                                                        "example": "754f68bc-b724-4a4c-91da-970cc5592f8e"
+                                                    },
+                                                    "first_name": {
+                                                        "type": "string",
+                                                        "example": "Carolyn"
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": "Mann"
+                                                    },
+                                                    "is_admin": {
+                                                        "type": "number",
+                                                        "example": 0
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "john.doe@gmail.com"
+                                                    },
+                                                    "email_verified_at": {
+                                                        "type": "string",
+                                                        "example": "2022-08-09T22:50:05.000000Z"
+                                                    },
+                                                    "avatar": {
+                                                        "type": "string",
+                                                        "example": "null"
+                                                    },
+                                                    "phone_number": {
+                                                        "type": "string",
+                                                        "example": "1-831-953-3966"
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "example": "75975 Cleora Meadows\\nWest Davebury, CT 86322"
+                                                    },
+                                                    "is_marketing": {
+                                                        "type": "number",
+                                                        "example": 0
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2022-08-09T22:50:05.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2022-08-09T22:50:05.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "No products records found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/create": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update a user record",
+                "description": "Update user information with existing UUID.",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "User UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "phone_number",
+                                    "address",
+                                    "is_marketing"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last Name",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "E-mail Address",
+                                        "type": "number"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirm Password",
+                                        "type": "string"
+                                    },
+                                    "avatar": {
+                                        "description": "Avatar",
+                                        "type": "file"
+                                    },
+                                    "phone_number": {
+                                        "description": "Phone Number",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string"
+                                    },
+                                    "is_marketing": {
+                                        "description": "Marketing",
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "first_name": "Felix",
+                                    "last_name": "James",
+                                    "email": "felix.james@gmail.com",
+                                    "email_verified_at": "2022-08-09T22:50:05.000000Z",
+                                    "avatar": "null",
+                                    "phone_number": "1-831-953-3966",
+                                    "address": "75975 Cleora Meadows\\\\nWest Davebury, CT 86322",
+                                    "is_marketing": 0,
+                                    "updated_at": "2022-08-09T22:50:05.000000Z",
+                                    "created_at": "2022-08-09T22:50:05.000000Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Administrator user was successfully created."
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Felix"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "James"
+                                        },
+                                        "is_admin": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "felix.james@gmail.com"
+                                        },
+                                        "email_verified_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T22:50:05.000000Z"
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": "1-831-953-3966"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "75975 Cleora Meadows\\\\nWest Davebury, CT 86322"
+                                        },
+                                        "is_marketing": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "uuid": {
+                                            "type": "string",
+                                            "example": "0f2de771-25dc-488d-81f6-95ba99bfebc8"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "last_login_at": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "file": {
+                                            "type": "string",
+                                            "example": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to create an administrator user."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An Administrator user cannot be updated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Store new administrator user record",
+                "description": "Returns the created administrator information",
+                "operationId": "storeAdministratorUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "phone_number",
+                                    "address",
+                                    "is_marketing"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last Name",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "E-mail Address",
+                                        "type": "number"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirm Password",
+                                        "type": "string"
+                                    },
+                                    "avatar": {
+                                        "description": "Avatar",
+                                        "type": "file"
+                                    },
+                                    "phone_number": {
+                                        "description": "Phone Number",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string"
+                                    },
+                                    "is_marketing": {
+                                        "description": "Marketing",
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "first_name": "Felix",
+                                    "last_name": "James",
+                                    "email": "felix.james@gmail.com",
+                                    "email_verified_at": "2022-08-09T22:50:05.000000Z",
+                                    "avatar": "null",
+                                    "phone_number": "1-831-953-3966",
+                                    "address": "75975 Cleora Meadows\\\\nWest Davebury, CT 86322",
+                                    "is_marketing": 0,
+                                    "updated_at": "2022-08-09T22:50:05.000000Z",
+                                    "created_at": "2022-08-09T22:50:05.000000Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Administrator user was successfully created."
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Felix"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "James"
+                                        },
+                                        "is_admin": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "felix.james@gmail.com"
+                                        },
+                                        "email_verified_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T22:50:05.000000Z"
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "example": "1-831-953-3966"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "75975 Cleora Meadows\\\\nWest Davebury, CT 86322"
+                                        },
+                                        "is_marketing": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "uuid": {
+                                            "type": "string",
+                                            "example": "0f2de771-25dc-488d-81f6-95ba99bfebc8"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "last_login_at": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "file": {
+                                            "type": "string",
+                                            "example": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to create an administrator user."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Route Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/user-delete/{uuid}": {
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete user record",
+                "description": "Delete user information with existing UUID.",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "User UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User was successfully deleted."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to delete user."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An Administrator user cannot be deleted."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/products": {
             "get": {
                 "tags": [
@@ -82,7 +889,7 @@
                                                     },
                                                     "created_at": {
                                                         "type": "string",
-                                                        "example": "22022-08-09T10:25:52.000000Z"
+                                                        "example": "2022-08-09T10:25:52.000000Z"
                                                     },
                                                     "id": {
                                                         "type": "number",
@@ -227,7 +1034,7 @@
                                         },
                                         "created_at": {
                                             "type": "string",
-                                            "example": "22022-08-09T10:25:52.000000Z"
+                                            "example": "2022-08-09T10:25:52.000000Z"
                                         },
                                         "id": {
                                             "type": "number",
@@ -247,7 +1054,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "An error occurred while trying to create a product."
+                                            "example": "An error occurred while trying to create product."
                                         }
                                     },
                                     "type": "object"
@@ -260,6 +1067,9 @@
                     },
                     "403": {
                         "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Route Not Found"
                     },
                     "422": {
                         "description": "Unprocessable Entity"
@@ -341,7 +1151,7 @@
                                         },
                                         "created_at": {
                                             "type": "string",
-                                            "example": "22022-08-09T10:25:52.000000Z"
+                                            "example": "2022-08-09T10:25:52.000000Z"
                                         },
                                         "id": {
                                             "type": "number",
@@ -499,7 +1309,7 @@
                                         },
                                         "created_at": {
                                             "type": "string",
-                                            "example": "22022-08-09T10:25:52.000000Z"
+                                            "example": "2022-08-09T10:25:52.000000Z"
                                         },
                                         "id": {
                                             "type": "number",

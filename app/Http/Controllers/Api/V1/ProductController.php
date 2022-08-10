@@ -50,7 +50,7 @@ class ProductController extends Controller
      *              ),
      *              @OA\Property(property="uuid", type="string", example="0f2de771-25dc-488d-81f6-95ba99bfebc8"),
      *              @OA\Property(property="updated_at", type="string", example="2022-08-09T10:25:52.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="22022-08-09T10:25:52.000000Z"),
+     *              @OA\Property(property="created_at", type="string", example="2022-08-09T10:25:52.000000Z"),
      *              @OA\Property(property="id", type="number", example=1)
      *          ),
      *         ),
@@ -69,6 +69,7 @@ class ProductController extends Controller
      *          description="Internal Server Error"
      *      )
      * )
+     *
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -180,7 +181,7 @@ class ProductController extends Controller
      *              ),
      *              @OA\Property(property="uuid", type="string", example="0f2de771-25dc-488d-81f6-95ba99bfebc8"),
      *              @OA\Property(property="updated_at", type="string", example="2022-08-09T10:25:52.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="22022-08-09T10:25:52.000000Z"),
+     *              @OA\Property(property="created_at", type="string", example="2022-08-09T10:25:52.000000Z"),
      *              @OA\Property(property="id", type="number", example=1)
      *          )
      *      ),
@@ -188,7 +189,7 @@ class ProductController extends Controller
      *          response=400,
      *          description="Bad Request",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="An error occurred while trying to create a product."),
+     *              @OA\Property(property="message", type="string", example="An error occurred while trying to create product."),
      *          )
      *      ),
      *      @OA\Response(
@@ -198,6 +199,10 @@ class ProductController extends Controller
      *      @OA\Response(
      *          response=403,
      *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Route Not Found"
      *      ),
      *      @OA\Response(
      *          response=422,
@@ -275,7 +280,7 @@ class ProductController extends Controller
      *              ),
      *              @OA\Property(property="uuid", type="string", example="0f2de771-25dc-488d-81f6-95ba99bfebc8"),
      *              @OA\Property(property="updated_at", type="string", example="2022-08-09T10:25:52.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="22022-08-09T10:25:52.000000Z"),
+     *              @OA\Property(property="created_at", type="string", example="2022-08-09T10:25:52.000000Z"),
      *              @OA\Property(property="id", type="number", example=1)
      *          )
      *      ),
@@ -420,7 +425,7 @@ class ProductController extends Controller
      *              ),
      *              @OA\Property(property="uuid", type="string", example="0f2de771-25dc-488d-81f6-95ba99bfebc8"),
      *              @OA\Property(property="updated_at", type="string", example="2022-08-09T10:25:52.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="22022-08-09T10:25:52.000000Z"),
+     *              @OA\Property(property="created_at", type="string", example="2022-08-09T10:25:52.000000Z"),
      *              @OA\Property(property="id", type="number", example=1)
      *          )
      *      ),

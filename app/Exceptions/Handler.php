@@ -4,9 +4,10 @@ namespace App\Exceptions;
 
 use Throwable;
 use Psr\Log\LogLevel;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
@@ -74,9 +75,10 @@ class Handler extends ExceptionHandler
                 return response()->json(['message' => $exception->getMessage()], 404);
             } else if ($exception instanceof MethodNotAllowedHttpException) {
                 return response()->json(['message' => $exception->getMessage()], 405);
+            } else if ($exception instanceof RouteNotFoundException) {
+                return response()->json(['message' => $exception->getMessage()], 404);
             } else {
                 return response()->json(['message' => 'Token is either invalid or expired.'], 401);
-                // return response()->json(['message' => 'Internal Server Error.'], 500);
             }
         } else {
             return abort(404);
