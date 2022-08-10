@@ -28,7 +28,7 @@ The Pet Shop API offers the required HTTP request methods and endpoints to meet 
 8. Run `php artisan serve` command.
 
 9. Launch the API documentation UI via `/api/documentation`.
-
+    
 ## Login credentials
 
 Administrator Account
@@ -40,3 +40,17 @@ User Account
 You can get a new or existing user email from the `admin/user-listing` endpoint.
 
 -   Password: `userpassword`
+
+
+## Tests
+Run tests with `php artisan test`.
+
+```
+   PASS  Tests\Feature\AdminLoginTest
+  ✓ admin email login field is required
+  ✓ admin password login field is required
+  ✓ admin can login
+
+  Tests:  3 passed
+  Time:   0.31s
+```
