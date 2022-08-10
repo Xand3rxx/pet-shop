@@ -18,10 +18,10 @@ class UpdateProduct
      */
     public function handle(object $product, array $request)
     {
-        // Set `hasBeenCreated` to false before DB transaction
-        (bool) $hasBeenCreated = false;
+        // Set `hasBeenUpdated` to false before DB transaction
+        (bool) $hasBeenUpdated = false;
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($product, $request, &$hasBeenCreated) {
+        \Illuminate\Support\Facades\DB::transaction(function () use ($product, $request, &$updatedProduct, &$hasBeenUpdated) {
             $product = $product->update([
                 'category_uuid' => $request['category_uuid'],
                 'title'         => $request['title'],
@@ -36,9 +36,12 @@ class UpdateProduct
                 ]);
             }
 
-            $hasBeenCreated = true;
+            $hasBeenUpdated = true;
         }, 3); // Try 3 times before reporting an error
 
-        return $hasBeenCreated;
+        return [
+            'success' => $hasBeenUpdated,
+            'product' => $product->fresh()
+        ];
     }
 }

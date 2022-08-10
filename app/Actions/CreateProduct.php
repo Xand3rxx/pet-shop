@@ -18,10 +18,12 @@ class CreateProduct
      */
     public function handle(array $request)
     {
+        $product = [];
+
         // Set `hasBeenCreated` to false before DB transaction
         (bool) $hasBeenCreated = false;
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($request, &$hasBeenCreated) {
+        \Illuminate\Support\Facades\DB::transaction(function () use ($request, &$product, &$hasBeenCreated) {
             $product = Product::create([
                 'category_uuid' => $request['category_uuid'],
                 'title'         => $request['title'],
@@ -39,6 +41,9 @@ class CreateProduct
             $hasBeenCreated = true;
         }, 3); // Try 3 times before reporting an error
 
-        return $hasBeenCreated;
+        return [
+            'success' => $hasBeenCreated,
+            'product' => $product
+        ];
     }
 }

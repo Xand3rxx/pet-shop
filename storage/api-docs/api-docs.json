@@ -1,0 +1,624 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Pet Shop API",
+        "description": "The Pet Shop API offers the required HTTP request methods and endpoints to meet the demands of a FE team creating a suitable UI",
+        "contact": {
+            "email": "anthonyjoboy2016@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Display all products",
+                "description": "Returns products information.",
+                "operationId": "listProducts",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "1 product record(s) found."
+                                        },
+                                        "products": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "category_uuid": {
+                                                        "type": "string",
+                                                        "example": "3177e824-0efb-4873-adad-6b8ab82f738c"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Sweet dog treats"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": 22500
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "A fantastic treat for all dog breeds."
+                                                    },
+                                                    "metadata": {
+                                                        "description": "Product metadata",
+                                                        "properties": {
+                                                            "image": {
+                                                                "type": "string",
+                                                                "example": "4d469c9a-0673-4510-addd-e4a4db2d4e02"
+                                                            },
+                                                            "brand": {
+                                                                "type": "string",
+                                                                "example": "597370e5-4804-4852-bd32-29d65b3b679a"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "uuid": {
+                                                        "type": "string",
+                                                        "example": "0f2de771-25dc-488d-81f6-95ba99bfebc8"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2022-08-09T10:25:52.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "22022-08-09T10:25:52.000000Z"
+                                                    },
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "No products records found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Store new product",
+                "description": "Returns the created product information",
+                "operationId": "storeProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "category_uuid",
+                                    "title",
+                                    "price",
+                                    "description",
+                                    "metadata"
+                                ],
+                                "properties": {
+                                    "category_uuid": {
+                                        "description": "Category UUID",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Product title",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Product price",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "Product description",
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "description": "Product metadata",
+                                        "properties": {
+                                            "image": {
+                                                "description": "Image UUID",
+                                                "type": "string"
+                                            },
+                                            "brand": {
+                                                "description": "Brand UUID",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "category_uuid": "3177e824-0efb-4873-adad-6b8ab82f738c",
+                                    "title": "Sweet dog treats",
+                                    "price": 25500,
+                                    "description": "A fantastic treat for all dog breeds."
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product was successfully created."
+                                        },
+                                        "category_uuid": {
+                                            "type": "string",
+                                            "example": "3177e824-0efb-4873-adad-6b8ab82f738c"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Sweet dog treats"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 22500
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "A fantastic treat for all dog breeds."
+                                        },
+                                        "metadata": {
+                                            "description": "Product metadata",
+                                            "properties": {
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "4d469c9a-0673-4510-addd-e4a4db2d4e02"
+                                                },
+                                                "brand": {
+                                                    "type": "string",
+                                                    "example": "597370e5-4804-4852-bd32-29d65b3b679a"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "uuid": {
+                                            "type": "string",
+                                            "example": "0f2de771-25dc-488d-81f6-95ba99bfebc8"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "22022-08-09T10:25:52.000000Z"
+                                        },
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to create a product."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/{uuid}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Show product information",
+                "description": "Returns product information with existing UUID.",
+                "operationId": "showProduct",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Product UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "category_uuid": {
+                                            "type": "string",
+                                            "example": "3177e824-0efb-4873-adad-6b8ab82f738c"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Sweet dog treats"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 22500
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "A fantastic treat for all dog breeds."
+                                        },
+                                        "metadata": {
+                                            "description": "Product metadata",
+                                            "properties": {
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "4d469c9a-0673-4510-addd-e4a4db2d4e02"
+                                                },
+                                                "brand": {
+                                                    "type": "string",
+                                                    "example": "597370e5-4804-4852-bd32-29d65b3b679a"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "uuid": {
+                                            "type": "string",
+                                            "example": "0f2de771-25dc-488d-81f6-95ba99bfebc8"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "22022-08-09T10:25:52.000000Z"
+                                        },
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Product Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update a product record",
+                "description": "Update product information with existing UUID.",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Product UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "category_uuid",
+                                    "title",
+                                    "price",
+                                    "description",
+                                    "metadata"
+                                ],
+                                "properties": {
+                                    "category_uuid": {
+                                        "description": "Category UUID",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Product title",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Product price",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "Product description",
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "description": "Product metadata",
+                                        "properties": {
+                                            "image": {
+                                                "description": "Image UUID",
+                                                "type": "string"
+                                            },
+                                            "brand": {
+                                                "description": "Brand UUID",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "category_uuid": "3177e824-0efb-4873-adad-6b8ab82f738c",
+                                    "title": "Sweet dog treats",
+                                    "price": 25500,
+                                    "description": "A fantastic treat for all dog breeds."
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product was successfully updated."
+                                        },
+                                        "category_uuid": {
+                                            "type": "string",
+                                            "example": "3177e824-0efb-4873-adad-6b8ab82f738c"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Sweet dog treats"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 22500
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "A fantastic treat for all dog breeds."
+                                        },
+                                        "metadata": {
+                                            "description": "Product metadata",
+                                            "properties": {
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "4d469c9a-0673-4510-addd-e4a4db2d4e02"
+                                                },
+                                                "brand": {
+                                                    "type": "string",
+                                                    "example": "597370e5-4804-4852-bd32-29d65b3b679a"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "uuid": {
+                                            "type": "string",
+                                            "example": "0f2de771-25dc-488d-81f6-95ba99bfebc8"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2022-08-09T10:25:52.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "22022-08-09T10:25:52.000000Z"
+                                        },
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to update product."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete product record",
+                "description": "Delete product information with existing UUID.",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Product UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product was successfully deleted."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to delete product."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Product Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    }
+}

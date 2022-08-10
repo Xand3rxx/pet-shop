@@ -22,7 +22,8 @@ class Product extends Model
      *
      * @var array
      */
-    // protected $with = ['file'];
+    protected $with = ['category', 'file', 'brand'];
+    // protected $with = ['category'];
 
      /**
      * The attributes that should be cast.
@@ -46,11 +47,29 @@ class Product extends Model
     }
 
     /**
+     * Get the category associated with the product.
+     */
+    public function category()
+    {
+    // dd($this->metadata);
+
+        return $this->hasOne(Category::class, 'uuid', 'category_uuid');
+    }
+
+    /**
+     * Get the brand associated with the product.
+     */
+    public function brand()
+    {
+        return $this->hasOne(Brand::class, 'uuid', 'metadata["brand"]');
+    }
+
+    /**
      * Get the file associated with the product.
      */
     public function file()
     {
-        return $this->hasOne(File::class, 'uuid', 'metadata');
+        return $this->hasOne(File::class, 'uuid', 'metadata["image"]');
     }
 
     /**

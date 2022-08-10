@@ -76,6 +76,7 @@ class Handler extends ExceptionHandler
                 return response()->json(['message' => $exception->getMessage()], 405);
             } else {
                 return response()->json(['message' => 'Token is either invalid or expired.'], 401);
+                // return response()->json(['message' => 'Internal Server Error.'], 500);
             }
         } else {
             return abort(404);

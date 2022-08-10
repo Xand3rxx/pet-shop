@@ -27,6 +27,8 @@ The Pet Shop API offers the required HTTP request methods and endpoints to meet 
 
 8. Run `php artisan serve` command.
 
+9. Launch the API documentation UI via `/api/documentation`.
+
 ## Login credentials
 
 Administrator Account
